@@ -1,0 +1,62 @@
+﻿name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  backend-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        working-directory: apps/backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements/base.txt
+          pip install pytest pytest-cov
+
+      - name: Run tests
+        working-directory: apps/backend
+        env:
+          JWT_SECRET_KEY: ci-test-secret-change-me
+        run: pytest tests/ -q
+
+  android-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Build debug APK
+        working-directory: apps/android
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: agi-platform-debug-apk
+          path: apps/android/app/build/outputs/apk/debug/*.apk
