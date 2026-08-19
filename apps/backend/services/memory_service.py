@@ -1,4 +1,24 @@
-﻿import os
+﻿
+class MemoryService:
+    \"\"\"Сервис для работы с памятью агентов\"\"\"
+    
+    @staticmethod
+    def save_to_memory(agent_id: str, text: str, embedding: List[float], metadata: Optional[dict] = None):
+        return save_to_memory(agent_id, text, embedding, metadata)
+    
+    @staticmethod
+    def search_memory(agent_id: str, query_embedding: List[float], limit: int = 10) -> List[dict]:
+        return search_memory(agent_id, query_embedding, limit)
+    
+    @staticmethod
+    def delete_from_memory(memory_id: str) -> bool:
+        return delete_from_memory(memory_id)
+    
+    @staticmethod
+    def ensure_collection():
+        return ensure_collection()
+
+import os
 import time
 import logging
 from typing import List, Optional, Dict, Any
@@ -121,3 +141,4 @@ def delete_from_memory(memory_id: str) -> bool:
     except Exception as e:
         logger.error(f"Failed to delete memory: {e}")
         return False
+
