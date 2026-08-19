@@ -1,24 +1,4 @@
-﻿
-class MemoryService:
-    \"\"\"Сервис для работы с памятью агентов\"\"\"
-    
-    @staticmethod
-    def save_to_memory(agent_id: str, text: str, embedding: List[float], metadata: Optional[dict] = None):
-        return save_to_memory(agent_id, text, embedding, metadata)
-    
-    @staticmethod
-    def search_memory(agent_id: str, query_embedding: List[float], limit: int = 10) -> List[dict]:
-        return search_memory(agent_id, query_embedding, limit)
-    
-    @staticmethod
-    def delete_from_memory(memory_id: str) -> bool:
-        return delete_from_memory(memory_id)
-    
-    @staticmethod
-    def ensure_collection():
-        return ensure_collection()
-
-import os
+﻿import os
 import time
 import logging
 from typing import List, Optional, Dict, Any
@@ -33,6 +13,27 @@ COLLECTION_NAME = "agi_memory"
 VECTOR_SIZE = int(os.getenv("QDRANT_VECTOR_SIZE", "768"))
 
 client = QdrantClient(url=QDRANT_URL, timeout=10)
+
+
+class MemoryService:
+    """Сервис для работы с памятью агентов"""
+
+    @staticmethod
+    def save_to_memory(agent_id: str, text: str, embedding: List[float], metadata: Optional[dict] = None):
+        return save_to_memory(agent_id, text, embedding, metadata)
+
+    @staticmethod
+    def search_memory(agent_id: str, query_embedding: List[float], limit: int = 10) -> List[dict]:
+        return search_memory(agent_id, query_embedding, limit)
+
+    @staticmethod
+    def delete_from_memory(memory_id: str) -> bool:
+        return delete_from_memory(memory_id)
+
+    @staticmethod
+    def ensure_collection():
+        return ensure_collection()
+
 
 def ensure_collection():
     """Создаёт коллекцию если она не существует"""
@@ -57,19 +58,19 @@ def ensure_collection():
                 raise e
             time.sleep(3)
 
+
 def save_to_memory(agent_id: str, text: str, embedding: List[float], metadata: Optional[dict] = None):
     """Сохраняет текст в память"""
     try:
         ensure_collection()
-        
+
         payload = {"agent_id": agent_id, "text": text}
         if metadata:
             payload.update(metadata)
-        
-        # ✅ Добавляем ID для отслеживания
+
         import uuid
         point_id = str(uuid.uuid4())
-        
+
         client.upsert(
             collection_name=COLLECTION_NAME,
             points=[
@@ -86,19 +87,19 @@ def save_to_memory(agent_id: str, text: str, embedding: List[float], metadata: O
         logger.error(f"Failed to save to memory: {e}")
         raise e
 
+
 def search_memory(agent_id: str, query_embedding: List[float], limit: int = 10) -> List[dict]:
     """Ищет в памяти по эмбеддингу"""
     try:
         ensure_collection()
-        
-        # ✅ Проверяем, что коллекция существует и содержит точки
+
         collection_info = client.get_collection(collection_name=COLLECTION_NAME)
         if collection_info.points_count == 0:
             logger.warning(f"Collection {COLLECTION_NAME} is empty")
             return []
-        
+
         logger.info(f"Searching memory for agent_id={agent_id}, limit={limit}")
-        
+
         results = client.search(
             collection_name=COLLECTION_NAME,
             query_vector=query_embedding,
@@ -112,9 +113,9 @@ def search_memory(agent_id: str, query_embedding: List[float], limit: int = 10) 
                 ]
             )
         )
-        
+
         logger.info(f"Found {len(results)} results")
-        
+
         return [
             {
                 "text": r.payload.get("text", ""),
@@ -126,8 +127,8 @@ def search_memory(agent_id: str, query_embedding: List[float], limit: int = 10) 
         ]
     except Exception as e:
         logger.error(f"Search memory error: {e}", exc_info=True)
-        # ✅ Возвращаем пустой список, но логируем ошибку
         return []
+
 
 def delete_from_memory(memory_id: str) -> bool:
     """Удаляет запись из памяти"""
@@ -141,4 +142,3 @@ def delete_from_memory(memory_id: str) -> bool:
     except Exception as e:
         logger.error(f"Failed to delete memory: {e}")
         return False
-
