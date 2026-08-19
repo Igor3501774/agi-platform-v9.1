@@ -1,4 +1,4 @@
-from sentence_transformers import CrossEncoder
+ï»¿from sentence_transformers import CrossEncoder
 from typing import List, Tuple, Optional
 import logging
 
@@ -11,7 +11,7 @@ class CrossEncoderService:
             self.available = True
             logger.info(f"? CrossEncoder loaded: {model_name}")
         except Exception as e:
-            logger.warning(f"?? CrossEncoder failed: {e} — using fallback")
+            logger.warning(f"?? CrossEncoder failed: {e} ï¿½ using fallback")
             self.model = None
             self.available = False
 
