@@ -65,3 +65,29 @@ async def rate_limit(request: Request):
             status_code=status.HTTP_429_TOO_MANY_REQUESTS,
             detail="Rate limit exceeded (memory)"
         )
+
+class RateLimiter:
+    '''Rate limiter middleware wrapper'''
+    
+    def __init__(self):
+        self.limiter = AsyncMemoryLimiter()
+    
+    async def check_and_add(self, key: str, now: int, window_start: int) -> bool:
+        return await self.limiter.check_and_add(key, now, window_start)
+    
+    async def __call__(self, request, call_next):
+        import time
+        from fastapi import HTTPException, status
+        
+        client_ip = request.client.host if request.client else "unknown"
+        key = f"rate_limit:{client_ip}"
+        now = int(time.time())
+        window_start = now - 60
+        
+        if await self.check_and_add(key, now, window_start):
+            return await call_next(request)
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+                detail="Too many requests"
+            )
