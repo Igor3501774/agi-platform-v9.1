@@ -46,7 +46,7 @@ jobs:
       - name: Run tests
         working-directory: apps/backend
         env:
-          JWT_SECRET_KEY: ci-test-secret-change-me
+          JWT_SECRET_KEY: ci-test-secret-change-me-must-be-at-least-64-characters-long-for-validation
           DATABASE_URL: postgresql://test:test@localhost:5432/test
           PYTHONPATH: .:..
         run: |
@@ -81,3 +81,4 @@ jobs:
         with:
           name: agi-platform-debug-apk
           path: apps/android/app/build/outputs/apk/debug/*.apk
+

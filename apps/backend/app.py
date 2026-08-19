@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from datetime import datetime, timedelta
 from typing import Optional
 import jwt
-from settings import settings
+from config.settings import settings
 from services.embedding_service import EmbeddingService
 from services.cross_encoder_service import CrossEncoderService
 from services.memory_service import MemoryService
