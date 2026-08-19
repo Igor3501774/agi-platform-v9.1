@@ -1,4 +1,4 @@
-import os
+пїњimport os
 import time
 import asyncio
 from fastapi import Request, HTTPException, status
@@ -19,9 +19,9 @@ try:
     REDIS_AVAILABLE = True
     print("? Redis rate limiter connected")
 except Exception as e:
-    print(f"?? Redis not available: {e} Ч rate limiting disabled")
+    print(f"?? Redis not available: {e}   rate limiting disabled")
 
-# јсинхронный memory-лимитер (без threading)
+#   memory-  (  threading)
 class AsyncMemoryLimiter:
     def __init__(self):
         self._requests: Dict[str, list] = defaultdict(list)
@@ -56,9 +56,9 @@ async def rate_limit(request: Request):
             await r.expire(key, WINDOW_SECONDS)
             return
         except Exception as e:
-            print(f"?? Redis error: {e} Ч skipping rate limit")
+            print(f"?? Redis error: {e}   skipping rate limit")
 
-    # Memory fallback (асинхронный)
+    # Memory fallback ( )
     ok = await memory_limiter.check_and_add(client_ip, now, window_start)
     if not ok:
         raise HTTPException(
