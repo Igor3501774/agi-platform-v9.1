@@ -76,3 +76,4 @@ class TestDeepSeekService:
         service.client.chat.completions.create = AsyncMock(return_value=mock_response)
         result = await service.chat(messages=[{"role": "user", "content": "Hello"}])
         assert result["content"] == "Test response"
+```
