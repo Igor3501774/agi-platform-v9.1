@@ -1,7 +1,7 @@
 ﻿import logging
 import asyncpg
 from typing import List, Optional, Dict, Any
-from backend.services.agent_definitions import AGENTS_50
+from .agent_definitions import AGENTS_50
 
 logger = logging.getLogger(__name__)
 
