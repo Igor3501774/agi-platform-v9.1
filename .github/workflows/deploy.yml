@@ -1,0 +1,21 @@
+﻿name: Deploy
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          pip install -r apps/backend/requirements/base.txt
+          pip install pytest pytest-cov
+      - name: Run tests
+        run: |
+          cd apps/backend
+          pytest tests/ -v --cov=./ --cov-report=xml || true

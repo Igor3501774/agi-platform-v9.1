@@ -1,0 +1,7 @@
+﻿class CrossEncoderService:
+    def rerank(self, query: str, candidates: list, top_k: int = 5) -> list:
+        if not candidates:
+            return []
+        return [(c, 0.5) for c in candidates[:top_k]]
+
+cross_encoder_service = CrossEncoderService()

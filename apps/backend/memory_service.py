@@ -1,0 +1,63 @@
+﻿import os
+import time
+from typing import List, Optional
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+QDRANT_URL = os.getenv("QDRANT_URL", "http://qdrant:6333")
+COLLECTION_NAME = "agi_memory"
+VECTOR_SIZE = int(os.getenv("QDRANT_VECTOR_SIZE", "768"))
+
+client = QdrantClient(url=QDRANT_URL, timeout=10)
+
+def ensure_collection():
+    max_retries = 15
+    for attempt in range(max_retries):
+        try:
+            if not client.collection_exists(collection_name=COLLECTION_NAME):
+                client.create_collection(
+                    collection_name=COLLECTION_NAME,
+                    vector_size=VECTOR_SIZE,
+                    distance=models.Distance.COSINE,
+                )
+            return True
+        except Exception as e:
+            if attempt == max_retries - 1:
+                raise e
+            time.sleep(3)
+
+def save_to_memory(agent_id: str, text: str, embedding: List[float], metadata: Optional[dict] = None):
+    ensure_collection()
+    payload = {"agent_id": agent_id, "text": text}
+    if metadata:
+        payload.update(metadata)
+    client.upsert(
+        collection_name=COLLECTION_NAME,
+        points=[
+            models.PointStruct(
+                id=None,
+                vector=embedding,
+                payload=payload,
+            )
+        ]
+    )
+
+def search_memory(agent_id: str, query_embedding: List[float], limit: int = 10) -> List[dict]:
+    ensure_collection()
+    try:
+        results = client.search(
+            collection_name=COLLECTION_NAME,
+            query_vector=query_embedding,
+            limit=limit,
+            filter=models.Filter(
+                must=[
+                    models.FieldCondition(
+                        key="agent_id",
+                        match=models.MatchValue(value=agent_id),
+                    )
+                ]
+            )
+        )
+        return [{"text": r.payload.get("text", ""), "score": r.score} for r in results]
+    except Exception:
+        return []

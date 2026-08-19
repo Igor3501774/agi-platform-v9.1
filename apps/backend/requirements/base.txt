@@ -1,0 +1,36 @@
+﻿fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic==2.10.4
+pydantic-settings==2.6.1
+sqlalchemy==2.0.36
+alembic==1.14.1
+asyncpg==0.30.0
+psycopg2-binary==2.9.10
+redis==5.2.1
+qdrant-client==1.12.1
+openai==1.59.7
+tiktoken==0.8.0
+sentence-transformers==3.3.1
+# cross-encoder входит в sentence-transformers
+# cross-encoder==1.0.1  # закомментировано
+celery==5.4.0
+python-dotenv==1.0.1
+pyyaml==6.0.2
+passlib[bcrypt]==1.7.4
+python-jose[cryptography]==3.3.0
+python-multipart==0.0.20
+dependency-injector==4.41.0
+httpx==0.28.1
+aiofiles==24.1.0
+tenacity==9.0.0
+prometheus-client==0.21.0
+python-json-logger==3.2.1
+opentelemetry-api==1.27.0
+opentelemetry-sdk==1.27.0
+pytest==8.3.4
+pytest-asyncio==0.25.2
+pytest-cov==6.0.0
+factory-boy==3.3.1
+testcontainers==4.8.2
+locust==2.31.6
+

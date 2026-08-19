@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">AGI Platform</string>
+    <string name="chat">Чат</string>
+    <string name="agents">Эксперты</string>
+    <string name="profile">Профиль</string>
+    <string name="settings">Настройки</string>
+    <string name="subscription">Подписка</string>
+    <string name="free">Бесплатно</string>
+    <string name="premium">Премиум</string>
+    <string name="popular">Популярные</string>
+    <string name="all_agents">Все эксперты</string>
+    
+    <string name="onboarding_title_1">50 экспертов в кармане</string>
+    <string name="onboarding_title_2">Профессиональные консультации</string>
+    <string name="onboarding_title_3">Готово к работе</string>
+    <string name="onboarding_desc_1">Выберите эксперта из 50 областей</string>
+    <string name="onboarding_desc_2">Получите ответ от ИИ-специалиста</string>
+    <string name="onboarding_desc_3">Начните общение прямо сейчас</string>
+    
+    <string name="login_title">Вход в приложение</string>
+    <string name="login_gosuslugi">Войти через Госуслуги</string>
+    <string name="login_guest">Продолжить без входа</string>
+    <string name="login_or">или</string>
+    <string name="ai_disclaimer">Ответы генерируются искусственным интеллектом</string>
+    
+    <string name="chat_hint">Напишите сообщение...</string>
+    <string name="chat_send">Отправить</string>
+    <string name="ai_label">🤖 Сгенерировано ИИ</string>
+    
+    <string name="loading">Загрузка...</string>
+    <string name="error">Ошибка</string>
+    <string name="retry">Повторить</string>
+</resources>

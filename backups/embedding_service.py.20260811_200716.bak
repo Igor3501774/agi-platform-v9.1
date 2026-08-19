@@ -1,0 +1,24 @@
+﻿import hashlib
+import numpy as np
+
+class EmbeddingService:
+    _dimension = 384
+    
+    @property
+    def dimension(self) -> int:
+        return self._dimension
+    
+    def encode(self, text: str) -> list:
+        if not text:
+            return [0.0] * self._dimension
+        hash_bytes = hashlib.md5(text.encode()).digest()
+        result = []
+        for i in range(self._dimension):
+            byte_val = hash_bytes[i % 16]
+            result.append((byte_val / 127.5) - 1.0)
+        norm = np.linalg.norm(result)
+        if norm > 0:
+            result = [x / norm for x in result]
+        return result
+
+embedding_service = EmbeddingService()

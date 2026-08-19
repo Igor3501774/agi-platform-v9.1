@@ -1,0 +1,84 @@
+from fastapi import APIRouter, Depends, HTTPException, status, Query
+from typing import List, Optional
+from backend.models.agent import Agent
+from backend.services.agent_registry import get_registry
+from backend.core.security import get_current_user
+
+router = APIRouter(prefix="/agents", tags=["agents"])
+
+@router.get("/", response_model=List[Agent])
+async def list_agents(
+    category: Optional[str] = None,
+    premium: Optional[bool] = None,
+    search: Optional[str] = None,
+    current_user = Depends(get_current_user)
+):
+    """Получить список всех агентов с фильтрацией"""
+    registry = get_registry()
+    await registry.ensure_loaded()
+    
+    agents = registry.get_all_agents()
+    
+    # Фильтрация по категории
+    if category:
+        agents = [a for a in agents if a.category == category]
+    
+    # Фильтрация по премиум статусу
+    if premium is not None:
+        agents = [a for a in agents if a.is_premium == premium]
+    
+    # Поиск по тексту
+    if search:
+        agents = registry.search_agents(search)
+    
+    return agents
+
+@router.get("/{agent_id}", response_model=Agent)
+async def get_agent(
+    agent_id: str,
+    current_user = Depends(get_current_user)
+):
+    """Получить детали агента по ID"""
+    registry = get_registry()
+    await registry.ensure_loaded()
+    
+    agent = registry.get_agent(agent_id)
+    if not agent:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Agent {agent_id} not found"
+        )
+    return agent
+
+@router.get("/categories/")
+async def get_categories(current_user = Depends(get_current_user)):
+    """Получить список всех категорий агентов"""
+    registry = get_registry()
+    await registry.ensure_loaded()
+    
+    categories = set()
+    for agent in registry.get_all_agents():
+        categories.add(agent.category)
+    return {"categories": sorted(list(categories))}
+
+@router.get("/stats/")
+async def get_stats(current_user = Depends(get_current_user)):
+    """Получить статистику по агентам"""
+    registry = get_registry()
+    await registry.ensure_loaded()
+    
+    return registry.get_stats()
+
+@router.get("/premium/", response_model=List[Agent])
+async def get_premium_agents(current_user = Depends(get_current_user)):
+    """Получить только премиум агентов"""
+    registry = get_registry()
+    await registry.ensure_loaded()
+    return registry.get_premium_agents()
+
+@router.get("/free/", response_model=List[Agent])
+async def get_free_agents(current_user = Depends(get_current_user)):
+    """Получить только бесплатных агентов"""
+    registry = get_registry()
+    await registry.ensure_loaded()
+    return registry.get_free_agents()

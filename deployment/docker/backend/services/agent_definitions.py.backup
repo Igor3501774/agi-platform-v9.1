@@ -1,0 +1,18 @@
+# Заглушка для определений агентов
+# В будущем сюда можно добавить реальные определения 50 агентов
+
+AGENT_DEFINITIONS = []
+
+# Раскомментируйте для теста:
+# AGENT_DEFINITIONS = [
+#     {
+#         "id": "assistant",
+#         "name": "Assistant",
+#         "description": "General purpose assistant",
+#         "system_prompt": "You are a helpful assistant.",
+#         "category": "general",
+#         "is_premium": False,
+#         "is_safe": True,
+#         "tags": ["general", "assistant"]
+#     }
+# ]

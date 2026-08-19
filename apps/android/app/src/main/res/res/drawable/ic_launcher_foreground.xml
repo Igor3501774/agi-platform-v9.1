@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Ободок -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.15"
+        android:pathData="M54,12 L54,12 C40,12 27,18 18,27 C9,36 12,40 12,54 C12,68 18,81 27,90 C36,99 40,96 54,96 C68,96 81,90 90,81 C99,72 96,68 96,54 C96,40 90,27 81,18 C72,9 68,12 54,12 Z"/>
+    
+    <!-- Круг -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.3"
+        android:pathData="M54,18 L54,18 C43,18 31,23 24,30 C17,37 18,42 18,54 C18,66 23,78 30,85 C37,92 42,91 54,91 C66,91 78,86 85,79 C92,72 91,67 91,54 C91,42 86,30 79,23 C72,16 67,18 54,18 Z"/>
+    
+    <!-- Буква A -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,28 L54,28 L54,28 L44,55 L50,55 L52,49 L62,49 L64,55 L70,55 L60,28 L54,28 Z
+        M54,34 L58,44 L54,44 L54,34 Z"/>
+    
+    <!-- Буква G -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M72,34 L72,34 L72,34 L72,43 L76,43 L76,40 C78,37 80,34 82,34 C86,34 88,37 88,40 L88,40 L88,46 C86,42 82,40 78,40 C72,40 70,45 70,52 L70,52 C70,58 73,63 78,63 C82,63 86,60 88,56 L88,63 L94,63 L94,52 C94,44 90,36 82,34 C78,32 74,32 72,34 Z
+        M88,48 L88,48 L88,52 C87,55 84,58 80,58 C77,58 76,56 76,52 C76,47 78,45 82,45 C85,45 87,46 88,48 Z"/>
+    
+    <!-- Буква I -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M42,34 L42,34 L42,55 L48,55 L48,34 L42,34 Z
+        M42,60 L42,60 L42,67 L48,67 L48,60 L42,60 Z"/>
+    
+    <!-- Нейронные связи (круги) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.6"
+        android:pathData="M28,28 L28,28 A3,3 0 1,0 28,25 A3,3 0 1,0 28,28 Z"/>
+    
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.6"
+        android:pathData="M80,28 L80,28 A3,3 0 1,0 80,25 A3,3 0 1,0 80,28 Z"/>
+    
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.6"
+        android:pathData="M28,80 L28,80 A3,3 0 1,0 28,77 A3,3 0 1,0 28,80 Z"/>
+    
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.6"
+        android:pathData="M80,80 L80,80 A3,3 0 1,0 80,77 A3,3 0 1,0 80,80 Z"/>
+    
+    <!-- Соединительные линии -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.2"
+        android:pathData="M28,28 L80,28 L80,80 L28,80 Z"/>
+    
+    <!-- Блики -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.2"
+        android:pathData="M40,12 L40,12 L48,12 L48,20 L40,20 Z"/>
+    
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.15"
+        android:pathData="M68,12 L68,12 L76,12 L76,20 L68,20 Z"/>
+    
+</vector>

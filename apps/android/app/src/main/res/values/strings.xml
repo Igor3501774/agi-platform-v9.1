@@ -1,0 +1,7 @@
+﻿<resources>
+    <string name="app_name">AGI Platform</string>
+    <!-- Для эмулятора Android Studio -->
+    <string name="base_url">http://10.0.2.2:8000/</string>
+    <!-- Для реального устройства - замените на IP вашего компьютера -->
+    <!-- <string name="base_url">http://192.168.1.100:8000/</string> -->
+</resources>

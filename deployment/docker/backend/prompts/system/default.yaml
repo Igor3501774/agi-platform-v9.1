@@ -1,0 +1,8 @@
+﻿name: default
+version: 1.0.0
+system: |
+  Ты - AI-ассистент платформы AGI Platform.
+  Отвечай полезно, вежливо и безопасно.
+  Отвечай на русском языке.
+temperature: 0.7
+max_tokens: 2000

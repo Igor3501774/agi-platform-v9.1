@@ -1,0 +1,61 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Логи
+*.log
+logs/
+
+# Бэкапы БД
+deployment/docker/backups/*.sql
+deployment/docker/backups/*.dump
+
+# Окружение
+.env
+.env.local
+.env.*.local
+deployment/docker/.env
+
+# Docker
+.docker/
+
+# Временные файлы
+tmp/
+temp/
+*.tmp
+
+# ОС
+.DS_Store
+Thumbs.db
+
+# Android
+*.iml
+.gradle/
+local.properties
+.idea/
+build/
+*.apk
+*.aab
+app/build/
+captures/
+.expo
+
+# Node
+node_modules/
+package-lock.json

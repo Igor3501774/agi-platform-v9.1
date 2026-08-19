@@ -1,0 +1,111 @@
+﻿import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from dependency_injector import containers, providers
+from config.settings import Settings
+from database.manager import DatabaseManager
+from database.unit_of_work import UnitOfWork
+
+# AI Services
+from services.deepseek_service import DeepSeekService
+from services.circuit_breaker import SlidingWindowCircuitBreaker
+from services.rate_limiter import RateLimiterService
+from services.idempotency import IdempotencyService
+from services.memory_service import MemoryService
+from services.embedding_service import EmbeddingService
+from services.cross_encoder import CrossEncoderService
+from services.metrics import MetricsService
+from services.prompt_service import PromptService
+
+# ===== ЯДРО AGI PLATFORM =====
+from services.agent_registry import AgentRegistry
+from services.agent_service import AgentService
+from services.multi_agent_system import MultiAgentSystem
+from services.intelligence_pipeline import IntelligencePipeline
+
+from core.event_bus import StreamEventBus
+
+class Container(containers.DeclarativeContainer):
+    config = providers.Singleton(Settings)
+
+    # === Database ===
+    database_manager = providers.Singleton(
+        DatabaseManager,
+        database_url=config.provided.DATABASE_URL
+    )
+
+    unit_of_work = providers.Factory(
+        UnitOfWork,
+        session_factory=database_manager.provided.session
+    )
+
+    # === AI Services ===
+    embedding_service = providers.Singleton(EmbeddingService)
+    cross_encoder_service = providers.Singleton(CrossEncoderService)
+
+    deepseek_service = providers.Singleton(
+        DeepSeekService,
+        circuit_breaker=providers.Singleton(SlidingWindowCircuitBreaker)
+    )
+
+    prompt_service = providers.Singleton(
+        PromptService,
+        prompts_dir="prompts"
+    )
+
+    memory_service = providers.Singleton(
+        MemoryService,
+        qdrant_url=config.provided.QDRANT_URL,
+        embedding_service=embedding_service,
+        cross_encoder_service=cross_encoder_service
+    )
+
+    # === ЯДРО AGI PLATFORM ===
+
+    # 1. AgentRegistry — единый источник агентов
+    agent_registry = providers.Singleton(
+        AgentRegistry,
+        registry_dir="agents/registry",
+        db_service=database_manager
+    )
+
+    # 2. AgentService — один агент
+    agent_service = providers.Singleton(
+        AgentService,
+        registry=agent_registry,
+        deepseek=deepseek_service,
+        memory=memory_service,
+        prompts=prompt_service
+    )
+
+    # 3. MultiAgentSystem — коллектив агентов
+    multi_agent_system = providers.Singleton(
+        MultiAgentSystem,
+        registry=agent_registry,
+        service=agent_service
+    )
+
+    # 4. IntelligencePipeline — полный пайплайн
+    intelligence_pipeline = providers.Singleton(
+        IntelligencePipeline,
+        registry=agent_registry,
+        service=agent_service,
+        multi_agent=multi_agent_system
+    )
+
+    # === Infrastructure ===
+    rate_limiter = providers.Singleton(
+        RateLimiterService,
+        redis_url=config.provided.REDIS_URL
+    )
+
+    idempotency_service = providers.Singleton(
+        IdempotencyService,
+        redis_url=config.provided.REDIS_URL
+    )
+
+    event_bus = providers.Singleton(StreamEventBus)
+    metrics_service = providers.Singleton(MetricsService)
+
+container = Container()
