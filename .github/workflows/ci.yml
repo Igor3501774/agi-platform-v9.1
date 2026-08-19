@@ -32,7 +32,9 @@ jobs:
         working-directory: apps/backend
         env:
           JWT_SECRET_KEY: ci-test-secret-change-me
-        run: pytest tests/ -q
+        run: |
+          python --version
+          pytest tests/ -vv --tb=long
 
   android-build:
     runs-on: ubuntu-latest
@@ -45,7 +47,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Set up Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "17"
