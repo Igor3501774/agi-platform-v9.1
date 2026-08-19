@@ -1,11 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+﻿from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 from typing import Optional, Dict, Any
 import logging
 import uuid
 from datetime import datetime
 
-from backend.core.security import get_current_user
+from core.security import get_current_user
 
 logger = logging.getLogger(__name__)
 

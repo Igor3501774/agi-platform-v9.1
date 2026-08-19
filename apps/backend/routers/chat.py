@@ -3,8 +3,8 @@ from pydantic import BaseModel
 from typing import Optional, List
 import logging
 
-from backend.core.security import get_current_user
-from backend.services.agent_service import get_agent_service
+from core.security import get_current_user
+from .agent_service import get_agent_service
 
 logger = logging.getLogger(__name__)
 
@@ -51,3 +51,4 @@ async def send_message(
 @router.get("/healthz")
 async def healthz():
     return {"status": "alive", "message": "pong"}
+

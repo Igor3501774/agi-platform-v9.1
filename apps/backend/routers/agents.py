@@ -2,9 +2,9 @@
 from typing import List, Dict, Any
 import logging
 
-from backend.core.security import get_current_user
-from backend.services.agent_registry import get_registry
-from backend.models.agent import Agent
+from core.security import get_current_user
+from .agent_registry import get_registry
+from models.agent import Agent
 
 logger = logging.getLogger(__name__)
 
@@ -123,3 +123,4 @@ async def get_free_agents(current_user: dict = Depends(get_current_user)):
                 free_agents.append(agent)
     
     return {"agents": free_agents, "total": len(free_agents)}
+

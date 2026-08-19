@@ -1,25 +1,25 @@
-import logging
+﻿import logging
 from typing import List, Optional, Dict, Any
-from backend.services.agent_registry import get_registry
-from backend.services.agent_service import AgentService
+from .agent_registry import get_registry
+from .agent_service import AgentService
 
 logger = logging.getLogger(__name__)
 
 class MultiAgentSystem:
-    """Коллективная работа нескольких агентов"""
+    """РљРѕР»Р»РµРєС‚РёРІРЅР°СЏ СЂР°Р±РѕС‚Р° РЅРµСЃРєРѕР»СЊРєРёС… Р°РіРµРЅС‚РѕРІ"""
     
     def __init__(self):
         self.agent_service = AgentService()
     
     async def process(self, message: str, agent_ids: Optional[List[str]] = None) -> Dict[str, Any]:
-        """Обрабатывает сообщение несколькими агентами"""
+        """РћР±СЂР°Р±Р°С‚С‹РІР°РµС‚ СЃРѕРѕР±С‰РµРЅРёРµ РЅРµСЃРєРѕР»СЊРєРёРјРё Р°РіРµРЅС‚Р°РјРё"""
         registry = get_registry()
         await registry.ensure_loaded()
         
-        # Если агенты не указаны, выбираем всех
+        # Р•СЃР»Рё Р°РіРµРЅС‚С‹ РЅРµ СѓРєР°Р·Р°РЅС‹, РІС‹Р±РёСЂР°РµРј РІСЃРµС…
         if not agent_ids:
             agents = registry.get_all_agents()
-            # Берем первых 3 для примера
+            # Р‘РµСЂРµРј РїРµСЂРІС‹С… 3 РґР»СЏ РїСЂРёРјРµСЂР°
             agent_ids = [a["id"] for a in agents[:3]]
         
         results = []
@@ -27,7 +27,7 @@ class MultiAgentSystem:
             result = await self.agent_service.process_message(agent_id, message)
             results.append(result)
         
-        # Формируем коллективный ответ
+        # Р¤РѕСЂРјРёСЂСѓРµРј РєРѕР»Р»РµРєС‚РёРІРЅС‹Р№ РѕС‚РІРµС‚
         responses = [r.get("response", "") for r in results if "error" not in r]
         if responses:
             combined = "\n\n---\n\n".join(responses)
@@ -39,6 +39,6 @@ class MultiAgentSystem:
         else:
             return {
                 "status": "error",
-                "message": "Не удалось получить ответы от агентов",
+                "message": "РќРµ СѓРґР°Р»РѕСЃСЊ РїРѕР»СѓС‡РёС‚СЊ РѕС‚РІРµС‚С‹ РѕС‚ Р°РіРµРЅС‚РѕРІ",
                 "responses": results
             }

@@ -3,12 +3,12 @@ import json
 import logging
 from typing import Dict, List, Optional, Any
 
-from backend.services.agent_registry import get_registry
-from backend.services.agent_definitions import AGENTS_50
-from backend.core.config import settings
-from backend.core.smart_router import SmartRouter
-from backend.core.cache_manager import CacheManager
-from backend.core.response_formatter import ResponseFormatter
+from .agent_registry import get_registry
+from .agent_definitions import AGENTS_50
+from core.config import settings
+from core.smart_router import SmartRouter
+from core.cache_manager import CacheManager
+from core.response_formatter import ResponseFormatter
 
 logger = logging.getLogger(__name__)
 
@@ -163,3 +163,4 @@ agent_service = AgentService()
 def get_agent_service():
     """Возвращает глобальный экземпляр AgentService"""
     return agent_service
+

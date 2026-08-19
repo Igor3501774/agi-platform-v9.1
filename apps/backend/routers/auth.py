@@ -8,7 +8,7 @@ import os
 import time
 from collections import defaultdict
 
-from backend.core.security import SECRET_KEY, ALGORITHM, create_access_token, decode_token
+from core.security import SECRET_KEY, ALGORITHM, create_access_token, decode_token
 
 router = APIRouter()
 

@@ -1,7 +1,7 @@
 ﻿import os
 import httpx
 from typing import Optional, Dict, Any
-from backend.settings import settings
+from .settings import settings
 
 class DeepSeekL3Agent:
     def __init__(self, api_key: Optional[str] = None):

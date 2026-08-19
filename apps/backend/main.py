@@ -9,8 +9,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
-from backend.routers import auth, agents, chat, memory, embeddings, legal
-from backend.health import router as health_router
+from .routers import auth, agents, chat, memory, embeddings, legal
+from .health import router as health_router
 
 import time
 from collections import defaultdict

@@ -2,7 +2,7 @@
 import json
 import redis
 from typing import Optional, Dict, Any
-from backend.core.config import settings
+from core.config import settings
 
 class CacheManager:
     def __init__(self, redis_url: str = None):

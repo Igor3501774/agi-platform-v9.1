@@ -1,10 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+﻿from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
 from typing import List, Optional
 import logging
 
-from backend.core.security import get_current_user
-from backend.services.embedding_service import EmbeddingService
+from core.security import get_current_user
+from .embedding_service import EmbeddingService
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/embed", tags=["embeddings"])
