@@ -27,6 +27,7 @@ class Settings(BaseSettings):
 
     DEEPSEEK_API_KEY: str = ""
     DEEPSEEK_MODEL: str = "deepseek-chat"
+    DEEPSEEK_TIMEOUT: int = 30
 
     # ВРЕМЕННЫЙ ЖЁСТКИЙ КЛЮЧ (ЗАМЕНИТЕ НА .env ПОТОМ)
     JWT_SECRET_KEY: str = "m7BwU3m7W2iJ1mqaOTaoqg4xP5yR6uV8zA9bC0dE1fG2hI3jK4lM5nO6pQ7rS8tU9vW0xY1zA2bC3dE4fG5hI6jK7lM8nO9pQ0rS1tU2vW3xY4zA5bC6dE7fG8hI9jK0lM1nO2pQ3rS4tU5vW6xY7zA8bC9dE0"
