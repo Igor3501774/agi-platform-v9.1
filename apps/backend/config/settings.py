@@ -46,4 +46,8 @@ class Settings(BaseSettings):
     EMBEDDING_MODEL: str = "all-MiniLM-L6-v2"
     CROSS_ENCODER_MODEL: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 
+    QDRANT_HOST: str = "localhost"
+    QDRANT_PORT: int = 6333
+    QDRANT_COLLECTION_NAME: str = "agents"
+
 settings = Settings()
