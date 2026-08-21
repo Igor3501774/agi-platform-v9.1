@@ -15,9 +15,7 @@ app = FastAPI(title="AGI Platform v9.0 Backend")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 # Инициализация сервисов
-embedding_service = EmbeddingService(
-    model_name=settings.EMBEDDING_MODEL,
-)
+embedding_service = EmbeddingService()
 cross_encoder_service = CrossEncoderService(
     model_name=settings.CROSS_ENCODER_MODEL,
 )
