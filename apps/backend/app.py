@@ -20,11 +20,7 @@ embedding_service = EmbeddingService()
 cross_encoder_service = CrossEncoderService(
     model_name=settings.CROSS_ENCODER_MODEL,
 )
-memory_service = MemoryService(
-    host=settings.QDRANT_HOST,
-    port=settings.QDRANT_PORT,
-    collection_name=settings.QDRANT_COLLECTION_NAME,
-)
+memory_service = MemoryService()
 rate_limiter = RateLimiter()
 
 @app.on_event("startup")
