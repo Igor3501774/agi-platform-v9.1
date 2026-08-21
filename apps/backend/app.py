@@ -8,7 +8,6 @@ from config.settings import settings
 from services.embedding_service import EmbeddingService
 from services.cross_encoder_service import CrossEncoderService
 from services.memory_service import MemoryService
-from services.memory_service import MemoryService
 from services.memory_service import save_to_memory, search_memory, delete_from_memory
 from middleware.rate_limiter_middleware import RateLimiter
 
