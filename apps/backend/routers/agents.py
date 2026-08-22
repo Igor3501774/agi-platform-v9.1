@@ -3,7 +3,7 @@ from typing import List, Dict, Any
 import logging
 
 from core.security import get_current_user
-from .agent_registry import get_registry
+from services.agent_registry import get_registry
 from models.agent import Agent
 
 logger = logging.getLogger(__name__)
