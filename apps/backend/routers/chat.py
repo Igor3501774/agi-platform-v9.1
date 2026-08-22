@@ -4,7 +4,7 @@ from typing import Optional, List
 import logging
 
 from core.security import get_current_user
-from .agent_service import get_agent_service
+from services.agent_service import get_agent_service
 
 logger = logging.getLogger(__name__)
 
