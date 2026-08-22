@@ -34,7 +34,7 @@ async def get_agent(
         )
     return agent
 
-@router.get("/categories/")
+@router.get("/categories")
 async def get_categories(current_user: dict = Depends(get_current_user)):
     """???????? ?????? ???? ????????? ???????"""
     registry = get_registry()
@@ -53,7 +53,7 @@ async def get_categories(current_user: dict = Depends(get_current_user)):
     
     return {"categories": sorted(list(categories))}
 
-@router.get("/stats/")
+@router.get("/stats")
 async def get_stats(current_user: dict = Depends(get_current_user)):
     """???????? ?????????? ?? ???????"""
     registry = get_registry()
@@ -90,7 +90,7 @@ async def get_stats(current_user: dict = Depends(get_current_user)):
         "categories": categories
     }
 
-@router.get("/premium/")
+@router.get("/premium")
 async def get_premium_agents(current_user: dict = Depends(get_current_user)):
     """???????? ?????? ??????? ???????"""
     registry = get_registry()
@@ -107,7 +107,7 @@ async def get_premium_agents(current_user: dict = Depends(get_current_user)):
     
     return {"agents": premium_agents, "total": len(premium_agents)}
 
-@router.get("/free/")
+@router.get("/free")
 async def get_free_agents(current_user: dict = Depends(get_current_user)):
     """???????? ?????? ?????????? ???????"""
     registry = get_registry()
