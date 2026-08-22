@@ -4,7 +4,7 @@ from typing import List, Optional
 import logging
 
 from core.security import get_current_user
-from .embedding_service import EmbeddingService
+from services.embedding_service import EmbeddingService
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/embed", tags=["embeddings"])
