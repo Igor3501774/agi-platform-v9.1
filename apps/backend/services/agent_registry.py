@@ -1,4 +1,5 @@
-﻿import logging
+import os
+import logging
 import asyncpg
 from typing import List, Optional, Dict, Any
 from .agent_definitions import AGENTS_50
@@ -17,24 +18,24 @@ class AgentRegistry:
         return cls._instance
 
     def __init__(self):
-        # Загружаем агентов сразу при создании
+        # ????????? ??????? ????? ??? ????????
         import asyncio
         try:
             loop = asyncio.get_event_loop()
             if loop.is_running():
-                # Если цикл уже запущен, создаём задачу
+                # ???? ???? ??? ???????, ??????? ??????
                 asyncio.create_task(self.ensure_loaded())
             else:
                 loop.run_until_complete(self.ensure_loaded())
         except RuntimeError:
-            # Если нет цикла, создаём новый
+            # ???? ??? ?????, ??????? ?????
             asyncio.run(self.ensure_loaded())
 
     async def _get_db(self):
         if self._db_pool is None:
             self._db_pool = await asyncpg.create_pool(
-                user="agi_user",
-                password="agi_password_2026",
+                user=os.getenv("POSTGRES_USER", "postgres"),
+                password=os.getenv("POSTGRES_PASSWORD", "postgres"),
                 database="agi_platform",
                 host="postgres",
                 port=5432
@@ -51,9 +52,9 @@ class AgentRegistry:
                 if rows:
                     for row in rows:
                         self._agents[row["id"]] = dict(row)
-                    logger.info(f"✅ Загружено {len(self._agents)} агентов из БД")
+                    logger.info(f"? ????????? {len(self._agents)} ??????? ?? ??")
                 else:
-                    # Загружаем из AGENTS_50
+                    # ????????? ?? AGENTS_50
                     for agent in AGENTS_50:
                         self._agents[agent["id"]] = agent
                         await conn.execute("""
@@ -77,13 +78,13 @@ class AgentRegistry:
                             agent.get("category", "general"),
                             agent.get("is_premium", False),
                             agent.get("is_safe", False),
-                            agent.get("icon", "🤖"),
+                            agent.get("icon", "??"),
                             agent.get("prompt_template", ""),
                             agent.get("tags", [])
                         )
-                    logger.info(f"✅ Загружено {len(self._agents)} агентов из AGENTS_50")
+                    logger.info(f"? ????????? {len(self._agents)} ??????? ?? AGENTS_50")
         except Exception as e:
-            logger.error(f"❌ Ошибка БД: {e}, используем AGENTS_50")
+            logger.error(f"? ?????? ??: {e}, ?????????? AGENTS_50")
             for agent in AGENTS_50:
                 self._agents[agent["id"]] = agent
         self._loaded = True
@@ -111,3 +112,4 @@ def get_registry():
     if _registry is None:
         _registry = AgentRegistry()
     return _registry
+

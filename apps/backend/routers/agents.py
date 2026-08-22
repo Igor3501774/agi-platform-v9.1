@@ -1,4 +1,4 @@
-﻿from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List, Dict, Any
 import logging
 
@@ -10,9 +10,9 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/agents", tags=["agents"])
 
-@router.get("/")
+@router.get("")
 async def get_agents(current_user: dict = Depends(get_current_user)):
-    """Получить список всех агентов"""
+    """???????? ?????? ???? ???????"""
     registry = get_registry()
     await registry.ensure_loaded()
     agents = registry.get_all_agents()
@@ -23,7 +23,7 @@ async def get_agent(
     agent_id: str,
     current_user: dict = Depends(get_current_user)
 ):
-    """Получить агента по ID"""
+    """???????? ?????? ?? ID"""
     registry = get_registry()
     await registry.ensure_loaded()
     agent = registry.get_agent(agent_id)
@@ -36,13 +36,13 @@ async def get_agent(
 
 @router.get("/categories/")
 async def get_categories(current_user: dict = Depends(get_current_user)):
-    """Получить список всех категорий агентов"""
+    """???????? ?????? ???? ????????? ???????"""
     registry = get_registry()
     await registry.ensure_loaded()
     
     categories = set()
     for agent in registry.get_all_agents():
-        # ✅ ИСПРАВЛЕНО: используем get() для словарей
+        # ? ??????????: ?????????? get() ??? ????????
         if isinstance(agent, dict):
             category = agent.get("category")
         else:
@@ -55,7 +55,7 @@ async def get_categories(current_user: dict = Depends(get_current_user)):
 
 @router.get("/stats/")
 async def get_stats(current_user: dict = Depends(get_current_user)):
-    """Получить статистику по агентам"""
+    """???????? ?????????? ?? ???????"""
     registry = get_registry()
     await registry.ensure_loaded()
     agents = registry.get_all_agents()
@@ -66,7 +66,7 @@ async def get_stats(current_user: dict = Depends(get_current_user)):
     categories = {}
     
     for agent in agents:
-        # ✅ ИСПРАВЛЕНО: работаем со словарями
+        # ? ??????????: ???????? ?? ?????????
         if isinstance(agent, dict):
             if agent.get("is_premium", False):
                 premium += 1
@@ -92,7 +92,7 @@ async def get_stats(current_user: dict = Depends(get_current_user)):
 
 @router.get("/premium/")
 async def get_premium_agents(current_user: dict = Depends(get_current_user)):
-    """Получить список премиум агентов"""
+    """???????? ?????? ??????? ???????"""
     registry = get_registry()
     await registry.ensure_loaded()
     
@@ -109,7 +109,7 @@ async def get_premium_agents(current_user: dict = Depends(get_current_user)):
 
 @router.get("/free/")
 async def get_free_agents(current_user: dict = Depends(get_current_user)):
-    """Получить список бесплатных агентов"""
+    """???????? ?????? ?????????? ???????"""
     registry = get_registry()
     await registry.ensure_loaded()
     

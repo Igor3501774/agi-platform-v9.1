@@ -84,8 +84,11 @@ class AgentService:
         agent_role = agent.get("role", "Консультант")
         prompt = f"Ты {agent_name} — {agent_role}. Ответь на вопрос пользователя на русском языке. Вопрос: {query}"
 
-        # 7. Вызываем LLM
-        response_text = await self._call_deepseek(prompt)
+        # 7. Вызываем LLM (роутинг: DeepSeek только для Pro + complex)
+        if recommended_model == "deepseek-chat":
+            response_text = await self._call_deepseek(prompt)
+        else:
+            response_text = await self._call_ollama(prompt, recommended_model)
 
         # 8. Парсим ответ
         parsed = self.formatter.from_text(response_text, query)
@@ -106,6 +109,29 @@ class AgentService:
 
         return self.formatter.format(result)
 
+
+    async def _call_ollama(self, prompt: str, model: str = "smollm2:360m") -> str:
+        """Вызов Ollama (локальная модель)"""
+        import aiohttp
+        
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(
+                    "http://localhost:11434/api/generate",
+                    json={
+                        "model": model,
+                        "prompt": prompt,
+                        "stream": False
+                    },
+                    timeout=aiohttp.ClientTimeout(total=30)
+                ) as resp:
+                    if resp.status == 200:
+                        data = await resp.json()
+                        return data.get("response", "")
+        except Exception as e:
+            logger.error(f"Ollama error: {e}")
+        
+        return "Ошибка вызова локальной модели"
     async def _call_deepseek(self, prompt: str) -> str:
         """Вызов DeepSeek API"""
         import aiohttp

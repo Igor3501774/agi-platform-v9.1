@@ -1,4 +1,4 @@
-version: '3.8'
+﻿version: '3.8'
 
 services:
   backend:
@@ -20,8 +20,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=agi_platform
-      - REDIS_URL=redis://redis:6379/0
-      - OPENAI_API_KEY=sk-2982321b8deb4bd49f7c60e2f8e5e3f8
     depends_on:
       - redis
       - postgres
@@ -72,8 +70,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=agi_platform
-      - REDIS_URL=redis://redis:6379/0
-      - OPENAI_API_KEY=sk-2982321b8deb4bd49f7c60e2f8e5e3f8
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -108,4 +104,3 @@ volumes:
   redis_data:
   qdrant_data:
   postgres_data:
-

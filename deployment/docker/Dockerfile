@@ -2,21 +2,17 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y \
-    gcc \
-    postgresql-client \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y gcc postgresql-client curl && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
+COPY apps/backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ./backend ./backend
+COPY apps/backend ./backend
 
 ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
 
-COPY entrypoint.sh /entrypoint.sh
+COPY deployment/docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 EXPOSE 8000
